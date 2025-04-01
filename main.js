@@ -61,9 +61,10 @@ function create() {
   startGameText.setOrigin(0.5, 0.5);
   
   // Create character as a circle
-  character = this.physics.add.circle(game.config.width/4, game.config.height/2, 15, 0xFFFF00);
+  character = this.add.circle(game.config.width/4, game.config.height/2, 15, 0xFFFF00);
+  this.physics.add.existing(character);
   character.setDepth(1);
-  character.setCollideWorldBounds(true);
+  character.body.setCollideWorldBounds(true);
   character.body.allowGravity = false;
   gameStart = false;
   
@@ -97,7 +98,7 @@ function create() {
     this.input.on("pointerdown", function(pointer) {
       if(!isRefresh && !isGameOver) {
         wing.play();
-        character.setVelocityY(-230);
+        character.body.setVelocityY(-230);
       }
       isRefresh = false;
     }, this);
@@ -168,8 +169,8 @@ function hitBase(character, base) {
   if(!hitPlayed) hit.play();
   hitPlayed = true;
   character.body.enable = false;
-  character.setVelocityX(0);
-  character.setVelocityY(0);
+  character.body.setVelocityX(0);
+  character.body.setVelocityY(0);
   character.body.allowGravity = false;
   [this.upperPillars, this.lowerPillars].forEach(group => 
     group.children.iterate(pillar => {
