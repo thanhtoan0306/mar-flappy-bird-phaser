@@ -32,10 +32,6 @@ let game = new Phaser.Game(config);
 
 function preload() {
   // No image preloading - using shapes instead
-  this.load.audio("score","assets/SoundEffects/point.wav");
-  this.load.audio("hit","assets/SoundEffects/hit.wav");
-  this.load.audio("wing","assets/SoundEffects/wing.wav");
-  this.load.audio("die","assets/SoundEffects/die.wav");
 }
 
 function create() {
@@ -90,14 +86,8 @@ function create() {
     scoreText.setOrigin(0.5, 0.5);
     scoreText.setDepth(1);
 
-    point = this.sound.add("score");
-    hit = this.sound.add("hit");
-    wing = this.sound.add("wing");
-    die = this.sound.add("die");
-
     this.input.on("pointerdown", function(pointer) {
       if(!isRefresh && !isGameOver) {
-        wing.play();
         character.body.setVelocityY(-230);
       }
       isRefresh = false;
@@ -119,7 +109,6 @@ function update() {
         if(!scoreIncremented) {
            score++;
            scoreText.setText(score);
-           point.play();
            scoreIncremented = true;
         }
       }
@@ -166,8 +155,6 @@ Phaser.Scene.prototype.spawnPillarPair = function() {
 }
 
 function hitBase(character, base) {
-  if(!hitPlayed) hit.play();
-  hitPlayed = true;
   character.body.enable = false;
   character.body.setVelocityX(0);
   character.body.setVelocityY(0);
@@ -226,24 +213,12 @@ function hitBase(character, base) {
   retryButton.on("pointerdown", () => {
     isRefresh = true;
     isGameOver = false;
-    hitPlayed = false;
-    diePlayed = false;
     score = 0;
     this.scene.restart();
   });
 }
 
 function hitPillar(character, pillar) {
-  if(!hitPlayed) {
-    hit.play();
-    hitPlayed = true;
-    setTimeout(() => {
-      if(!diePlayed) {
-        die.play();
-        diePlayed = true;
-      }
-    }, 500);
-  }
   character.body.enable = false;
   character.body.setVelocityX(0);
   character.body.setVelocityY(0);
@@ -302,8 +277,6 @@ function hitPillar(character, pillar) {
   retryButton.on("pointerdown", () => {
     isRefresh = true;
     isGameOver = false;
-    hitPlayed = false;
-    diePlayed = false;
     score = 0;
     this.scene.restart();
   });
