@@ -245,8 +245,8 @@ function hitPillar(character, pillar) {
     }, 500);
   }
   character.body.enable = false;
-  character.setVelocityX(0);
-  character.setVelocityY(0);
+  character.body.setVelocityX(0);
+  character.body.setVelocityY(0);
   character.body.allowGravity = false;
   [this.upperPillars, this.lowerPillars].forEach(group => 
     group.children.iterate(pillar => {
